@@ -5,12 +5,13 @@ public class PlayerBehavior : MonoBehaviour
 {
 	public float Speed;
 	public float JumpForce;
-	private bool grounded;
+	public bool grounded;
+	public LayerMask Mask;
 
 	// Use this for initialization
 	void Start ()
 	{
-
+		Mask = ~Mask;
 	}
 	
 	// Update is called once per frame
@@ -20,8 +21,8 @@ public class PlayerBehavior : MonoBehaviour
 			MoveMethod("left");
 		if (Input.GetKey(KeyCode.D))
 			MoveMethod("right");
-		if (Input.GetKey(KeyCode.Space) && grounded)
-			MoveMethod("space");
+		/*if (Input.GetKey(KeyCode.Space))
+			MoveMethod("space");*/
 	}
 
 	void MoveMethod(string direction)
@@ -36,9 +37,13 @@ public class PlayerBehavior : MonoBehaviour
 				transform.Translate(Vector2.right*Speed*Time.deltaTime);
 				return;
 
-			case "space":
-				GetComponent<Rigidbody2D>().AddForce(Vector2.up*JumpForce,ForceMode2D.Impulse);
-				return;
+			/*case "space":
+				var hit = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 0.52f, Mask);
+				if (hit.collider.CompareTag("Ground"))
+				{ 
+					GetComponent<Rigidbody2D>().AddForce(Vector2.up*JumpForce, ForceMode2D.Impulse);
+				}
+				return;*/
 
 			default:
 				return;
